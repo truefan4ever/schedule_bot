@@ -24,10 +24,17 @@ def get_today_lessons():
     current_weekday = datetime.datetime.today().weekday()
     current_week = data['currentWeekNumber']
     schedule = data['schedules']
-    current_day_schedule = schedule[current_weekday]
-    lessons = current_day_schedule['schedule']
 
-    return lessons, current_week, current_day_schedule['weekDay']
+    try:
+        current_day_schedule = schedule[current_weekday]
+    except IndexError:
+        current_day_schedule = []
+
+    if current_day_schedule:
+        lessons = current_day_schedule['schedule']
+        return lessons, current_week, current_day_schedule['weekDay']
+    else:
+        return 'выходной'
 
 
 def get_tomorrow_lessons():
@@ -35,10 +42,17 @@ def get_tomorrow_lessons():
     tomorrow_weekday = datetime.datetime.today().weekday() + 1
     current_week = data['currentWeekNumber']
     schedule = data['schedules']
-    tomorrow_day_schedule = schedule[tomorrow_weekday]
-    lessons = tomorrow_day_schedule['schedule']
 
-    return lessons, current_week, tomorrow_day_schedule['weekDay']
+    try:
+        tomorrow_day_schedule = schedule[tomorrow_weekday]
+    except IndexError:
+        tomorrow_day_schedule = []
+
+    if tomorrow_day_schedule:
+        lessons = tomorrow_day_schedule['schedule']
+        return lessons, current_week, tomorrow_day_schedule['weekDay']
+    else:
+        return 'выходной'
 
 
 def get_exams():

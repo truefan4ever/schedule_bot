@@ -40,35 +40,41 @@ async def cats(message: types.Message):
 
 @dp.message_handler(commands=['today'])
 async def schedule(message: types.Message):
-    schedule, current_week, current_day_schedule = get_today_lessons()
-    msg = f"Сегодня: {current_day_schedule.upper()}\n \n"
-    for index, value in enumerate(schedule):
-        if current_week in value['weekNumber']:
-            if value['lessonType'] == 'ЛК':
-                lesson_type_emodji = '📗'
-            elif value['lessonType'] == 'ЛР':
-                lesson_type_emodji = '📕'
-            elif value['lessonType'] == 'ПЗ':
-                lesson_type_emodji = '📙'
-            msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
-
+    data = get_today_lessons()
+    if type(data) == tuple:
+        schedule, current_week, current_day_schedule = data[0], data[1], data[2]
+        msg = f"Сегодня: {current_day_schedule.upper()}\n \n"
+        for index, value in enumerate(schedule):
+            if current_week in value['weekNumber']:
+                if value['lessonType'] == 'ЛК':
+                    lesson_type_emodji = '📗'
+                elif value['lessonType'] == 'ЛР':
+                    lesson_type_emodji = '📕'
+                elif value['lessonType'] == 'ПЗ':
+                    lesson_type_emodji = '📙'
+                msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
+    else:
+        msg = f"Сегодня {data}, отдыхайте!"
     await message.reply(msg)
 
 
 @dp.message_handler(commands=['tomorrow'])
 async def schedule(message: types.Message):
-    schedule, current_week, tomorrow_day_schedule = get_tomorrow_lessons()
-    msg = f"Завтра: {tomorrow_day_schedule.upper()}\n \n"
-    for index, value in enumerate(schedule):
-        if current_week in value['weekNumber']:
-            if value['lessonType'] == 'ЛК':
-                lesson_type_emodji = '📗'
-            elif value['lessonType'] == 'ЛР':
-                lesson_type_emodji = '📕'
-            elif value['lessonType'] == 'ПЗ':
-                lesson_type_emodji = '📙'
-            msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
-
+    data = get_tomorrow_lessons()
+    if type(data) == tuple:
+        schedule, current_week, tomorrow_day_schedule = data[0], data[1], data[2]
+        msg = f"Завтра: {tomorrow_day_schedule.upper()}\n \n"
+        for index, value in enumerate(schedule):
+            if current_week in value['weekNumber']:
+                if value['lessonType'] == 'ЛК':
+                    lesson_type_emodji = '📗'
+                elif value['lessonType'] == 'ЛР':
+                    lesson_type_emodji = '📕'
+                elif value['lessonType'] == 'ПЗ':
+                    lesson_type_emodji = '📙'
+                msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
+    else:
+        msg = f"Завтра {data}, отдыхайте!"
     await message.reply(msg)
 
 
