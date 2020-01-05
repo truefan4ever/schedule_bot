@@ -17,13 +17,13 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
-    await message.reply('Привет, это бот расписания группы 622401!\nИспользуй /help, '
-                        'чтобы узнать список доступных команд!', reply_markup=markup)
+    await message.answer('Привет, это бот расписания группы 622401!\nИспользуй /help, '
+                         'чтобы узнать список доступных команд!', reply_markup=markup)
 
 
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: types.Message):
-    await message.reply('Команды:\n/today - получение расписания на сегодня\n/tomorrow - получение расписания на завтра\n/exams - получчение расписания экзаменов\n/cat - фоткa котика)\n/dog - фотка песика)')
+    await message.answer('Команды:\n/today - получение расписания на сегодня\n/tomorrow - получение расписания на завтра\n/exams - получчение расписания экзаменов\n/cat - фоткa котика)\n/dog - фотка песика)')
 
 
 @dp.message_handler(commands=['cat'])
@@ -55,7 +55,7 @@ async def schedule(message: types.Message):
                 msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
     else:
         msg = f"Сегодня {data}, отдыхайте!"
-    await message.reply(msg)
+    await message.answer(msg)
 
 
 @dp.message_handler(commands=['tomorrow'])
@@ -75,7 +75,7 @@ async def schedule(message: types.Message):
                 msg += f"{index+1}. {value['subject']}\n 🕑{value['lessonTime']}\n{lesson_type_emodji}{value['lessonType']}\n🚪{value['auditory'][0]}\n👤{value['employee'][0]['fio']}\n \n"
     else:
         msg = f"Завтра {data}, отдыхайте!"
-    await message.reply(msg)
+    await message.answer(msg)
 
 
 @dp.message_handler(commands=['exams'])
@@ -89,7 +89,7 @@ async def schedule(message: types.Message):
             lesson_type_emodji = '📙'
 
         msg += f"📅{value['weekDay']}\n🕑{value['schedule'][0]['lessonTime']}\n🚪{value['schedule'][0]['auditory'][0]}\n{lesson_type_emodji}{value['schedule'][0]['subject']}({value['schedule'][0]['lessonType']})\n👤{value['schedule'][0]['employee'][0]['fio']}\n \n"
-    await message.reply(msg)
+    await message.answer(msg)
 
 
 if __name__ == '__main__':
