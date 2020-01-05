@@ -39,7 +39,10 @@ def get_today_lessons():
 
 def get_tomorrow_lessons():
     data = get_connection()
-    tomorrow_weekday = datetime.datetime.today().weekday() + 1
+    if datetime.datetime.today().weekday() == 6:
+        tomorrow_weekday = 0
+    else:
+        tomorrow_weekday = datetime.datetime.today().weekday() + 1
     current_week = data['currentWeekNumber']
     schedule = data['schedules']
 
